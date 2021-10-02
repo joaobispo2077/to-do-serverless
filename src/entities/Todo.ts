@@ -5,7 +5,7 @@ class Todo {
   user_id: string;
   title: string;
   done: boolean;
-  deadline: Date;
+  deadline: string;
 
   constructor(todo: Partial<Todo>) {
     this.id = todo.id || uuid();

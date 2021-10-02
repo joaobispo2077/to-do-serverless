@@ -39,3 +39,5 @@ class TodoRepositories implements ITodoRepositories {
     return todos;
   }
 }
+
+export { TodoRepositories };

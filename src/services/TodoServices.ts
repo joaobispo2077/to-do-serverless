@@ -6,12 +6,14 @@ class TodoServices {
   constructor(private todosRepositories: ITodoRepositories) {}
 
   async create({ title, deadline, user_id }: ICreateTodoDTO): Promise<Todo> {
+    console.log(title, deadline, user_id);
     const todo = {
       title,
-      deadline,
+      deadline: new Date(String(deadline)).toISOString(),
       user_id,
       done: false,
     };
+    console.log(todo);
 
     const newTodo = this.todosRepositories.create(todo);
 

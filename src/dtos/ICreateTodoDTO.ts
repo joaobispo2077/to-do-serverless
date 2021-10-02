@@ -1,6 +1,6 @@
 export interface ICreateTodoDTO {
   title: string;
   user_id: string;
-  deadline: Date;
+  deadline: string;
   done?: boolean;
 }
