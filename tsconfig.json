@@ -3,20 +3,31 @@
   "compilerOptions": {
     "lib": ["ESNext"],
     "moduleResolution": "node",
+    "module": "ESNext",
     "noUnusedLocals": true,
+    "allowJs": true,
+    "noEmit": true,
+    "strict": false,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
     "noUnusedParameters": true,
     "removeComments": true,
     "sourceMap": true,
     "target": "ES2020",
-    "outDir": "lib"
+    "outDir": "dist"
   },
-  "include": ["src/**/*.ts", "serverless.ts"],
+  "include": ["src/**/*.ts"],
   "exclude": [
     "node_modules/**/*",
-    ".dynamodb/**/*",
     ".serverless/**/*",
+    ".dynamodb/**/*",
     ".webpack/**/*",
     "_warmup/**/*",
+    ".husky/**/*",
     ".vscode/**/*"
   ],
   "ts-node": {
