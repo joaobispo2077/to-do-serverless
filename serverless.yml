@@ -39,6 +39,7 @@ custom:
       port: 8080
       inMemory: true
       migrate: true
+
   dev:
     database:
       todo_table:
@@ -82,9 +83,27 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: S
         KeySchema:
           - AttributeName: id
             KeyType: HASH
+          - AttributeName: user_id
+            KeyType: RANGE
+        AttributeDefinitions:
+          - AttributeName: id # id
+            AttributeType: S
+          - AttributeName: user_id # id
+            AttributeType: S
+      GlobalSecondaryIndexes:
+        - IndexName: gsiUserId
+          KeySchema:
+            - AttributeName: user_id
+              KeyType: RANGE
+            - AttributeName: id
+              KeyType: HASH
+          Projection:
+            # NonKeyAttributes:
+            #   - user_id
+            ProjectionType: ALL
+          ProvisionedThroughput:
+            ReadCapacityUnits: 5
+            WriteCapacityUnits: 5

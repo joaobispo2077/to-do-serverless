@@ -24,7 +24,7 @@ class DynamoDbMapper {
   }
 
   static converToEntity<T>(
-    data: T & ConvertOptions,
+    data: T,
     options: ConvertOptions,
   ): Omit<T, 'pk' | 'sk'> {
     const converted = Object.assign(

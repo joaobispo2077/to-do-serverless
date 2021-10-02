@@ -25,7 +25,7 @@ export const handler = async (event, context, callback) => {
     });
 
     return {
-      statusCode: 200,
+      statusCode: 201,
       body: JSON.stringify(todo),
     };
   } catch (error) {
