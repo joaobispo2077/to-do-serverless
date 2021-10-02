@@ -13,6 +13,7 @@
   "include": ["src/**/*.ts", "serverless.ts"],
   "exclude": [
     "node_modules/**/*",
+    ".dynamodb/**/*",
     ".serverless/**/*",
     ".webpack/**/*",
     "_warmup/**/*",

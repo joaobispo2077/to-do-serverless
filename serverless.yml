@@ -73,10 +73,10 @@ functions:
           - dynamodb:Query
         Resource:
           - arn:aws:dynamodb:${self:provider.stage}:*:table/${self:custom.${self:provider.stage}.database.todo_table.name}
-          
+
 resources:
   Resources:
-    dbCertificateUsers:
+    dbTodoUsers:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: ${self:custom.${self:provider.stage}.database.todo_table.name}

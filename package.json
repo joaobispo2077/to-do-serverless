@@ -4,7 +4,10 @@
   "description": "Serverless aws-nodejs-typescript template",
   "main": "serverless.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "serverless offline start --stage dev",
+    "dynamo:start": "serverless dynamodb start",
+    "deploy": "serverless deploy -v",
+    "serverless:config": "serverless config credentials --provider aws --key xxxxxxx --secret yyyy"
   },
   "engines": {
     "node": ">=14.15.0"
@@ -17,6 +20,8 @@
     "@types/aws-lambda": "^8.10.71",
     "@types/node": "^14.14.25",
     "serverless": "^2.23.0",
+    "serverless-dynamodb-local": "^0.2.40",
+    "serverless-offline": "^8.2.0",
     "serverless-webpack": "^5.3.5",
     "ts-loader": "^8.0.15",
     "ts-node": "^9.1.1",
