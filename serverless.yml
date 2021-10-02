@@ -1,0 +1,91 @@
+service:
+  name: to-do-serverless
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+  versionFunctions: false # to disable function versioning
+
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - dynamodb:*
+          Resource:
+            - '*'
+
+  environment:
+    TODO_TABLE_NAME: ${self:custom.${self:provider.stage}.database.todo_table.name}
+
+plugins:
+
+- serverless-webpack
+- serverless-dynamodb-local
+- serverless-offline
+
+custom:
+# serverless-offline
+#   httpPort: 4000
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true
+  dynamodb:
+    stages:
+      - dev
+      - local
+    start:
+      port: 8080
+      inMemory: true
+      migrate: true
+  dev:
+    database:
+      todo_table:
+        name: todo-table-${self:provider.stage}
+
+functions:
+  createTodo:
+    handler: src/functions/createTodo.handler
+    events:
+      - http:
+          path: /todos/{userid}
+          method: POST
+          cors: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+          - dynamodb:PutItem
+        Resource:
+          - arn:aws:dynamodb:${self:provider.stage}:*:table/${self:custom.${self:provider.stage}.database.todo_table.name}
+  recoverTodo:
+    handler: src/functions/recoverTodo.handler
+    events:
+      - http:
+          path: /todos/{userid}
+          method: GET
+          cors: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource:
+          - arn:aws:dynamodb:${self:provider.stage}:*:table/${self:custom.${self:provider.stage}.database.todo_table.name}
+          
+resources:
+  Resources:
+    dbCertificateUsers:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.${self:provider.stage}.database.todo_table.name}
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
