@@ -83,27 +83,25 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5
+        AttributeDefinitions:
+          - AttributeName: id # pk
+            AttributeType: S
+          - AttributeName: deadline # sk
+            AttributeType: S
+          - AttributeName: user_id # gsi
+            AttributeType: S
+        GlobalSecondaryIndexes:
+          - IndexName: gsiUserId
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: 5
+              WriteCapacityUnits: 5
+            KeySchema:
+              - AttributeName: user_id
+                KeyType: HASH
         KeySchema:
           - AttributeName: id
             KeyType: HASH
-          - AttributeName: user_id
+          - AttributeName: deadline
             KeyType: RANGE
-        AttributeDefinitions:
-          - AttributeName: id # id
-            AttributeType: S
-          - AttributeName: user_id # id
-            AttributeType: S
-      GlobalSecondaryIndexes:
-        - IndexName: gsiUserId
-          KeySchema:
-            - AttributeName: user_id
-              KeyType: RANGE
-            - AttributeName: id
-              KeyType: HASH
-          Projection:
-            # NonKeyAttributes:
-            #   - user_id
-            ProjectionType: ALL
-          ProvisionedThroughput:
-            ReadCapacityUnits: 5
-            WriteCapacityUnits: 5

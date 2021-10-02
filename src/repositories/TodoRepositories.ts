@@ -1,6 +1,5 @@
 import { ICreateTodoDTO } from 'src/dtos/ICreateTodoDTO';
 import { Todo } from 'src/entities/Todo';
-import { DynamoDbMapper } from 'src/mappers/DynamoDbMapper';
 import { dynamoddbClient } from 'src/utils/dynamodbClient';
 
 import { ITodoRepositories } from './interfaces/ITodoRepositories';
@@ -36,12 +35,7 @@ class TodoRepositories implements ITodoRepositories {
 
     const todos = response.Items as Todo[];
 
-    return todos.map((todo) =>
-      DynamoDbMapper.converToEntity(todo, {
-        pk: 'id',
-        sk: 'user_id',
-      }),
-    );
+    return todos;
   }
 }
 
