@@ -5,7 +5,7 @@
 
       "@functions/*": ["src/functions/*"],
       "@libs/*": ["src/libs/*"],
-      "@/": ["src/"]
+      "@": ["src/"]
     }
   }
 }
